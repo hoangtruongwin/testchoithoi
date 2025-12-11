@@ -1,0 +1,366 @@
+/* style.css
+   Colorful theme for "Đăng kí môn thi tốt nghiệp" form
+   Drop this file next to your HTML and link it with: <link rel="stylesheet" href="style.css">
+*/
+
+/* ---------- root theme ---------- */
+:root{
+  --bg: #f3f7fb;
+  --card-bg: #ffffff;
+  --muted: #6b7280;
+  --text: #16202a;
+  --accent-1: #6c5ce7;   /* purple */
+  --accent-2: #00b894;   /* green */
+  --accent-3: #0984e3;   /* blue */
+  --border: rgba(22,32,42,0.08);
+  --shadow: 0 8px 20px rgba(13,35,56,0.06);
+  --radius: 8px;
+  --gap: 12px;
+}
+
+/* Light mode (default) ----------------------------------- */
+body {
+  background: #f5f8ff;
+  color: #111;
+  transition: 0.3s;
+}
+
+/* DARK MODE ---------------------------------------------- */
+.dark {
+  background: #0f0f0f;
+  color: #e8e8e8;
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+  background: #1b1b1b;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.dark .section-box {
+  background: #161616;
+  box-shadow: 0 0 8px rgba(255,255,255,0.05);
+}
+
+.dark label {
+  color: #eaeaea;
+}
+
+.dark button {
+  background: #4a3cf3;
+  color: white;
+}
+
+
+/* ---------- body adjustments (as requested) ---------- */
+html,body{
+  height:100%;
+}
+body{
+  margin:0;
+  font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg, #f9fbff 0%, var(--bg) 100%);
+  color:var(--text);
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:40px 20px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* ---------- container / form card ---------- */
+.container {
+  width: 760px;
+  max-width: 96%;
+}
+
+h1.form-title{
+  font-size:28px;
+  margin:0 0 14px 0;
+  color:var(--accent-3);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+  font-weight:700;
+}
+
+/* outer card border to mimic original but prettier */
+.form-card {
+  background: linear-gradient(180deg, var(--card-bg), #fbfdff 60%);
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  padding:18px;
+}
+
+/* nice inner padding and spacing like the screenshot */
+form{
+  display:block;
+}
+
+/* fieldset / legend styling */
+fieldset{
+  border:1px solid rgba(22,32,42,0.06);
+  padding:18px;
+  margin:12px 6px;
+  border-radius:6px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(250,250,252,0.7));
+}
+
+legend{
+  padding:0 10px;
+  font-weight:700;
+  color:var(--accent-1);
+  font-size:15px;
+  letter-spacing:0.2px;
+  width:auto;
+}
+
+/* form rows */
+.form-row{
+  display:flex;
+  align-items:center;
+  margin:10px 0;
+  gap:var(--gap);
+}
+
+.form-row label{
+  width:160px;
+  min-width:120px;
+  color:var(--muted);
+  font-weight:600;
+  font-size:14px;
+}
+
+/* inputs/select/textarea */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  flex:1;
+  padding:10px 12px;
+  border-radius:6px;
+  border:1px solid rgba(22,32,42,0.08);
+  background: linear-gradient(180deg, #ffffff, #fbfbfd);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  font-size:14px;
+  color:var(--text);
+  transition:box-shadow .14s ease, border-color .14s ease, transform .06s ease;
+}
+
+/* placeholder subtle */
+input::placeholder, select option[disabled]{
+  color:#bfc7d1;
+  font-weight:500;
+}
+
+/* focus states */
+input:focus, select:focus {
+  outline:none;
+  border-color:var(--accent-1);
+  box-shadow: 0 4px 18px rgba(108,92,231,0.12);
+  transform: translateY(-1px);
+}
+
+/* inline groups for checkboxes & radios */
+.checkbox-group, .radio-group{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-left:6px;
+}
+
+.checkbox-group label, .radio-group label {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  color:var(--text);
+  cursor:pointer;
+}
+
+/* style native checkboxes & radios a bit */
+input[type="checkbox"], input[type="radio"]{
+  width:18px;
+  height:18px;
+  accent-color: var(--accent-2);
+  cursor:pointer;
+}
+
+/* select subtle arrow custom (keeps native look) */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+                    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right:40px;
+}
+
+/* date input icon spacing */
+input[type="date"]{
+  max-width:260px;
+}
+
+/* subtle horizontal separators between fieldsets on small displays */
+fieldset + fieldset {
+  margin-top: 10px;
+}
+
+/* action button */
+.form-actions{
+  display:flex;
+  justify-content:center;
+  padding:10px;
+}
+
+button[type="submit"]{
+  background: linear-gradient(180deg, var(--accent-1), #5b4be0);
+  color:white;
+  border:none;
+  padding:10px 18px;
+  border-radius:8px;
+  font-weight:700;
+  box-shadow: 0 6px 18px rgba(108,92,231,0.18);
+  cursor:pointer;
+  transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+
+button[type="submit"]:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(108,92,231,0.22);
+}
+
+button[type="submit"]:active{
+  transform: translateY(-1px) scale(.995);
+}
+
+/* responsive: stack labels on small screens */
+@media (max-width:640px) {
+  .form-row{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .form-row label{
+    width:auto;
+    margin-bottom:6px;
+  }
+  .checkbox-group, .radio-group{
+    flex-direction:row;
+    flex-wrap:wrap;
+  }
+  .checkbox-group label, .radio-group label{
+    margin-right:18px;
+  }
+}
+
+/* small decorative accent on the left border of each fieldset */
+fieldset::before{
+  content:"";
+  display:block;
+  width:6px;
+  height:100%;
+  position:absolute;
+  left:-2px;
+  top:0;
+  border-top-left-radius:6px;
+  border-bottom-left-radius:6px;
+  z-index:0;
+  transform:translateX(-12px);
+  background: linear-gradient(180deg, var(--accent-2), var(--accent-3));
+  opacity:0.14;
+}
+
+/* ensure fieldset relative for pseudo element */
+fieldset {
+  position:relative;
+  overflow:visible;
+}
+
+/* subtle helper text example */
+.help {
+  font-size:12px;
+  color:#9aa4b2;
+  margin-left:160px;
+}
+
+/* small print for accessibility */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px,1px,1px,1px);
+  white-space: nowrap;
+}
+/* ------------------------
+   Theme toggle styles
+   ------------------------ */
+.theme-toggle {
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:10px;
+  pointer-events:auto;
+}
+
+.theme-toggle__btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:1px solid rgba(22,32,42,0.08);
+  background: linear-gradient(180deg, #fff, #fbfdff);
+  color:var(--text);
+  padding:8px 10px;
+  border-radius:999px;
+  cursor:pointer;
+  box-shadow: 0 6px 14px rgba(13,35,56,0.06);
+  transition: background .18s ease, transform .12s ease, box-shadow .18s ease, border-color .12s ease;
+  font-weight:600;
+}
+
+.theme-toggle__btn:focus {
+  outline:none;
+  box-shadow: 0 6px 24px rgba(108,92,231,0.12);
+  transform: translateY(-1px);
+  border-color: var(--accent-1);
+}
+
+/* icons */
+.theme-toggle .icon {
+  display:block;
+  width:18px;
+  height:18px;
+  fill: currentColor;
+  opacity:0.0;
+  transform: scale(.85);
+  transition: opacity .16s ease, transform .16s ease;
+  pointer-events:none;
+}
+
+/* show sun in light mode, moon in dark mode */
+body:not(.dark) .icon-sun { opacity:1; transform:scale(1); }
+body:not(.dark) .icon-moon { opacity:0; transform:scale(.85); }
+
+body.dark .theme-toggle__btn {
+  background: linear-gradient(180deg, #13141a, #17181e);
+  color: var(--text);
+  border-color: rgba(255,255,255,0.06);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+
+body.dark .icon-moon { opacity:1; transform:scale(1); }
+body.dark .icon-sun { opacity:0; transform:scale(.85); }
+
+/* small screens: align right but smaller padding */
+@media (max-width:640px) {
+  .theme-toggle { margin-bottom:8px; }
+  .theme-toggle__btn { padding:6px 8px; }
+}
+
+/* smooth transitions for theme changes */
+:root, :root * {
+  transition: background-color .22s ease, color .22s ease, border-color .22s ease, box-shadow .22s ease;
+}

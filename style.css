@@ -1,0 +1,61 @@
+body {
+  background: skyblue;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+div {
+  margin: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  text-align: center;
+}
+.a1 {
+  background-color: lightgreen;
+  border: 2px solid green;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.a2 {
+  background-color: lightyellow;
+  border: 2px solid orange;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 2px 2px 5px rgba(15, 13, 13, 0.1);
+  text-align: center;
+}
+
+.a3 {
+  background-color: lightpink;
+  border: 2px solid red;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 2px 2px 5px rgba(15, 13, 13, 0.1);
+  text-align: center;
+}
+        .redirect-button {
+            background-color: #4CAF50; /* Green background */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none; /* Removes default anchor tag underline */
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer; /* Changes cursor to a hand icon on hover */
+            border-radius: 8px;
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+        }
+
+        .redirect-button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }

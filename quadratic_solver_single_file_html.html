@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quadratic Equation Solver</title>
+  <style>
+    :root { --card: #ffffff; --ink:#0f172a; --muted:#64748b; --accent:#2563eb; --bg:#f1f5f9; }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--ink); background: linear-gradient(180deg, #f8fafc, #eef2f7);
+      display: grid; place-items: start center; padding: 32px 16px;
+    }
+    .app { width: 100%; max-width: 760px; background: var(--card); border-radius: 20px; box-shadow: 0 10px 30px rgba(2, 6, 23, 0.1); overflow: hidden; }
+    header { padding: 20px 24px; border-bottom: 1px solid #e2e8f0; background: #fff; }
+    header h1 { margin: 0; font-size: 22px; }
+    header p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+    main { padding: 20px 24px; display: grid; gap: 18px; }
+
+    .row { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+    label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    input[type="number"] {
+      width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; outline: none;
+    }
+    input[type="number"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
+
+    .controls { display: flex; gap: 10px; flex-wrap: wrap; }
+    button {
+      appearance: none; cursor: pointer; border: 0; border-radius: 12px; padding: 10px 14px; font-weight: 600; font-size: 15px;
+    }
+    .primary { background: var(--accent); color: #fff; }
+    .ghost { background: #eef2ff; color: #1e293b; }
+    .link { background: transparent; color: var(--accent); padding-left: 0; padding-right: 0; }
+
+    .card { border: 1px solid #e2e8f0; border-radius: 16px; padding: 14px; background: #fff; }
+    .card h3 { margin: 0 0 8px; font-size: 16px; }
+    .muted { color: var(--muted); }
+    .output pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 14px; }
+    .steps { font-size: 14px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .kpi { text-align: center; padding: 10px; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1; }
+    .kpi .label { font-size: 12px; color: var(--muted); }
+    .kpi .value { font-weight: 700; font-size: 18px; margin-top: 4px; }
+    footer { padding: 16px 24px; border-top: 1px solid #e2e8f0; font-size: 13px; color: var(--muted); background: #fff; }
+  </style>
+</head>
+<body>
+  <div class="app" role="application" aria-labelledby="title">
+    <header>
+      <h1 id="title">Giải PT bậc 2</h1>
+      <p>Giải phương trình <strong>ax² + bx + c = 0</strong> (với trường hợp hàm bậc nhất khi <code>a = 0</code>). Hiển thị nghiệm thực hoặc phức và các bước giải.</p>
+    </header>
+
+    <main>
+      <section class="card" aria-label="Input coefficients">
+        <div class="row">
+          <div>
+            <label for="a">a (hệ số trước x²)</label>
+            <input id="a" type="number" step="any" value="1" />
+          </div>
+          <div>
+            <label for="b">b (hệ số trước x)</label>
+            <input id="b" type="number" step="any" value="-3" />
+          </div>
+          <div>
+            <label for="c">c (hằng số tự do)</label>
+            <input id="c" type="number" step="any" value="2" />
+          </div>
+        </div>
+        <div class="controls" style="margin-top:12px">
+          <button class="primary" id="solveBtn">Giải</button>
+          <button class="ghost" id="resetBtn">Đặt lại</button>
+          <button class="link" id="ex1">Ví dụ: a=1, b=-3, c=2</button>
+          <button class="link" id="ex2">Ví dụ: a=1, b=2, c=5 (nghiệm phức)</button>
+          <button class="link" id="ex3">Ví dụ: a=0, b=2, c=-8 (nghiệm đơn)</button>
+        </div>
+      </section>
+
+      <section class="grid2">
+        <div class="card output" aria-live="polite">
+          <h3>Kết quả</h3>
+          <div class="grid2">
+            <div class="kpi"><div class="label">Định thực Delat (Δ)</div><div class="value" id="disc">—</div></div>
+            <div class="kpi"><div class="label">Tổng nghiệm </div><div class="value" id="nature">—</div></div>
+          </div>
+          <pre id="result" style="margin-top:10px;">Nhập a, b, c và nhấn Giải.</pre>
+        </div>
+        <div class="card steps">
+          <h3>Cách giải</h3>
+          <ol id="steps">
+            <li>Với <strong>a ≠ 0</strong>: tính Δ = b² − 4ac.</li>
+            <li>Nếu Δ &gt; 0 → hai nghiệm thực; Δ = 0 → một nghiệm thực kép; Δ &lt; 0 → nghiệm ảo phức.</li>
+            <li>Công thức nghiệm: <em>x = (−b ± √Δ) / (2a)</em></li>
+            <li>Khi <strong>a = 0</strong>, phương trình trở thành bậc nhất: <em>bx + c = 0</em> ⇒ <em>x = −c / b</em>.</li>
+          </ol>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Nói nhỏ : Bạn có thể nhấn <strong>Enter</strong> trong bất kỳ ô nào để giải. Tất cả các số đều cho phép số thập phân.
+    </footer>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    function fmt(n) {
+      if (Number.isNaN(n)) return 'NaN';
+      // format to a reasonable precision, trimming trailing zeros
+      const s = Math.abs(n) >= 1e9 || (Math.abs(n) > 0 && Math.abs(n) < 1e-6)
+        ? n.toExponential(6)
+        : n.toFixed(6);
+      return s.replace(/\.?(0+)(e|$)/, '$2');
+    }
+
+    function solveQuadratic(a, b, c) {
+      const steps = [];
+
+      // Handle non-numeric inputs
+      if ([a,b,c].some((v) => !Number.isFinite(v))) {
+        return { kind: 'error', message: 'Vui lòng nhập số hợp lệ cho a, b, c.', steps };
+      }
+
+      // Linear / degenerate cases
+      if (a === 0) {
+        steps.push('Vì a = 0, phương trình trở thành bậc nhất: bx + c = 0.');
+        if (b === 0) {
+          if (c === 0) {
+            return { kind: 'degenerate', nature: '∞ nghiệm', disc: null, steps, text: 'Mọi x đều là nghiệm (0x + 0 = 0).'};
+          }
+          return { kind: 'degenerate', nature: 'vô nghiệm', disc: null, steps, text: 'Vô lý'};
+        }
+        const x = -c / b;
+        steps.push(`Giải bx + c = 0 ⇒ x = −c / b = ${fmt(-c)} / ${fmt(b)} = ${fmt(x)}.`);
+        return { kind: 'linear', nature: '1 nghiệm', disc: null, steps, roots: [x], text: `x = ${fmt(x)}` };
+      }
+
+      // Proper quadratic
+      const disc = b*b - 4*a*c; // discriminant
+      steps.push(`Tính delta: Δ = b² − 4ac = ${fmt(b)}² − 4·${fmt(a)}·${fmt(c)} = ${fmt(disc)}.`);
+
+      if (disc > 0) {
+        const sqrtD = Math.sqrt(disc);
+        // Numerically stable quadratic formula
+        const q = -0.5 * (b + Math.sign(b) * sqrtD);
+        const x1 = q / a;
+        const x2 = c / q;
+        steps.push('Δ > 0 ⇒ hai nghiệm thực phân biệt:');
+        steps.push(`q = −½ (b + (b)·√Δ) = ${fmt(q)}; thì x₁ = q/a = ${fmt(x1)}, x₂ = c/q = ${fmt(x2)}.`);
+        return { kind: 'quadratic', nature: 'nghiệm thực phân biệt', disc, steps, roots: [x1, x2], text: `x₁ = ${fmt(x1)},  x₂ = ${fmt(x2)}` };
+      } else if (disc === 0) {
+        const x = -b / (2*a);
+        steps.push('Δ = 0 ⇒ nghiệm kép.');
+        steps.push(`x = −b / (2a) = ${fmt(-b)} / ${fmt(2*a)} = ${fmt(x)}.`);
+        return { kind: 'quadratic', nature: 'nghiệm kép', disc, steps, roots: [x], text: `x = ${fmt(x)}` };
+      } else {
+        const sqrtAbs = Math.sqrt(-disc);
+        const real = -b / (2*a);
+        const imag = sqrtAbs / (2*Math.abs(a)); // keep imag ≥ 0 in magnitude
+        steps.push('Δ < 0 ⇒ nghiệm ảo phức.');
+        steps.push(`x = (−b ± i√(−Δ)) / (2a). Thực = ${fmt(real)}, ảo = ${fmt(sqrtAbs)}/|${fmt(2*a)}| = ${fmt(imag)}.`);
+        const r1 = `${fmt(real)} + ${fmt(imag)}i`;
+        const r2 = `${fmt(real)} − ${fmt(imag)}i`;
+        return { kind: 'quadratic', nature: 'nghiệm phức', disc, steps, roots: [r1, r2], text: `x₁ = ${r1},  x₂ = ${r2}` };
+      }
+    }
+
+    function runSolve() {
+      const a = parseFloat($("a").value);
+      const b = parseFloat($("b").value);
+      const c = parseFloat($("c").value);
+      const out = solveQuadratic(a,b,c);
+
+      const discBox = $("disc");
+      const natureBox = $("nature");
+      const res = $("result");
+      const stepsEl = $("steps");
+
+      // Reset
+      stepsEl.innerHTML = '';
+      discBox.textContent = out.disc === null || out.disc === undefined ? '—' : fmt(out.disc);
+
+      if (out.kind === 'error') {
+        natureBox.textContent = '—';
+        res.textContent = out.message;
+      } else {
+        natureBox.textContent = out.nature || '—';
+        res.textContent = out.text;
+      }
+
+      (out.steps || []).forEach(s => {
+        const li = document.createElement('li');
+        li.textContent = s; stepsEl.appendChild(li);
+      });
+    }
+
+    function setExample(a,b,c) {
+      $("a").value = a; $("b").value = b; $("c").value = c; runSolve();
+    }
+
+    // Wire up eventstwo real roots
+    $("solveBtn").addEventListener('click', runSolve);
+    $("resetBtn").addEventListener('click', () => { $("a").value = ''; $("b").value = ''; $("c").value = ''; $("disc").textContent='—'; $("nature").textContent='—'; $("result").textContent='Enter a, b, c and click Solve.'; $("steps").innerHTML=''; $("a").focus(); });
+    $("ex1").addEventListener('click', () => setExample(1, -3, 2));
+    $("ex2").addEventListener('click', () => setExample(1, 2, 5));
+    $("ex3").addEventListener('click', () => setExample(0, 2, -8));
+
+    // Press Enter to solve
+    ["a","b","c"].forEach(id => {
+      $(id).addEventListener('keydown', (e) => { if (e.key === 'Enter') runSolve(); });
+    });
+  </script>
+</body>
+</html>

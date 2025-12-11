@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Đăng kí môn thi tốt nghiệp</title>
+  <link rel="stylesheet" href="styles-thitn.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Đăng kí môn thi tốt nghiệp</h1>
+
+    <form action="#" method="post" novalidate>
+      <fieldset>
+        <legend>Thông tin cá nhân</legend>
+
+        <div class="form-row">
+          <label for="fullname">Họ và tên:</label>
+          <input id="fullname" name="fullname" type="text" placeholder="Nhập họ và tên" required />
+        </div>
+
+        <div class="form-row">
+          <label for="cccd">CCCD:</label>
+          <!-- dùng number theo yêu cầu; nếu muốn kiểm tra độ dài có thể đổi sang text + pattern -->
+          <input id="cccd" name="cccd" type="number" min="1" step="1" placeholder="Số căn cước" required />
+        </div>
+
+        <div class="form-row">
+          <label for="dob">Ngày sinh:</label>
+          <input id="dob" name="dob" type="date" required />
+        </div>
+
+        <div class="form-row" style="align-items: flex-start;">
+          <label>Giới tính:</label>
+          <div class="radio-group" role="radiogroup" aria-label="Giới tính">
+            <label><input type="radio" name="gender" value="nam" required> Nam</label>
+            <label><input type="radio" name="gender" value="nu"> Nữ</label>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Thông tin đăng kí</legend>
+
+        <div class="form-row" style="align-items:flex-start;">
+          <label>Môn thi:</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="subjects" value="toan"> Toán</label>
+            <label><input type="checkbox" name="subjects" value="ngu_van"> Ngữ Văn</label>
+            <label><input type="checkbox" name="subjects" value="ngoai_ngu"> Ngoại ngữ</label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="tohop">Tổ hợp môn:</label>
+          <select id="tohop" name="tohop" required>
+            <option value="">-- Chọn tổ hợp --</option>
+            <option value="khtn">Khoa học tự nhiên</option>
+            <option value="khxh">Khoa học xã hội</option>
+          </select>
+        </div>
+
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit" name="submit" value="send">Gửi thông tin</button>
+      </div>
+    </form>
+  </div>
+<script>
+  const form = document.querySelector('form');
+  form.addEventListener('submit', function(e){
+    e.preventDefault(); // stop normal post
+    // generate simple ref from time
+    const ref = 'REF' + Date.now().toString().slice(-6);
+    // optionally send data via fetch(...) here
+    // navigate to success page with ref
+    location.href = 'success-thitn.html?ref=' + encodeURIComponent(ref);
+  });
+</script>
+</body>
+</html>
