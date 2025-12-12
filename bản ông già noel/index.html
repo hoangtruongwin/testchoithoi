@@ -1,0 +1,411 @@
+<DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="christmas-lights">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+</div>
+<img id="santa" 
+     src="https://i.pinimg.com/originals/3e/b9/77/3eb9770560176f27b892275f0f23e83b.gif" 
+     alt="Santa Flying">
+<div>
+        <div class="a1">
+            <h1>Xin chào các bạn và cô Liễu!</h1>
+            <p>Chào mừng đến với trang web của tôi</p>
+            <p> Tôi là Trường, học sinh lớp 12A5-K23-THPTNH</p>
+            <p>Hy vọng bạn sẽ thích nó!</p>
+        </div> 
+        <div class="a2">
+            <h1>Đây mới chỉ là khới đầu thôi 😂</h1>
+            <p>Nếu có j sai sót. mong các bạn thông cảm nhé.</p>
+        </div>
+        <div class="a3">
+            <h1>Ai r cũng phải ra đời thôi, hi vọng rằng ai xem được cái này sẽ hữu duyên gặp nhiều may mắn nhé🥰 🤑, đạt điểm cao, thành đạt sau này. Tạm biệt</h1>
+        </div>
+        <div>
+        <h1> Qua đây chơi nè:</h1>
+    <button class="redirect-button" onclick="location.href='thi-tn.html'">
+        Form thi thử TN
+    </button>
+    <button class="redirect-button" onclick="location.href='quadratic_solver_single_file_html.html'">
+        Giải PT bậc 2
+    </button>
+<button class="redirect-button" onclick="window.open('https://github.com/hoangtruongwin/testchoithoi', '_blank')">
+    <svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+            d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.2-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.7 1.2 3.3.9.1-.8.4-1.2.7-1.5-2.6-.3-5.4-1.3-5.4-6 0-1.2.4-2.2 1.1-3-.1-.3-.5-1.4.1-2.9 0 0 .9-.3 3 1.1a10.3 10.3 0 0 1 5.5 0c2.1-1.4 3-1.1 3-1.1.6 1.5.2 2.6.1 2.9.7.8 1.1 1.8 1.1 3 0 4.7-2.8 5.7-5.4 6 .4.3.7 1 .7 2v3c0 .4.2.7.8.6A10.99 10.99 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
+    </svg>
+
+    Xem mã nguồn
+
+    <svg class="redirect-icon" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M14 3h3v3h-2V5.41l-7.29 7.3-1.42-1.42 7.3-7.29H14V3z"></path>
+        <path d="M5 5h5V3H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-5h-2v5H5V5z"></path>
+    </svg>
+</button>
+        <button class="redirect-button" onclick="location.href='clb-ck-1.html'">
+        Xem CLB của mình
+    </button>
+        </div>
+</div>
+<!-- ------------------------------
+  HOLIDAY PACK: Lights + Santa + Snow + Jingle
+  Copy/paste near the end of <body>
+------------------------------- -->
+
+<!-- 1) Christmas lights -->
+<div class="christmas-lights" aria-hidden="true">
+  <!-- 16 bulbs -->
+  <span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span>
+</div>
+
+<!-- 2) Snow container (snowflakes will be inserted by JS) -->
+<div id="snow-layer" aria-hidden="true"></div>
+
+<!-- 3) Santa GIF + trail container -->
+<div id="santa-container" aria-hidden="true">
+  <img id="santa" 
+       src="https://i.pinimg.com/originals/3e/b9/77/3eb9770560176f27b892275f0f23e83b.gif" 
+       alt="Santa Flying" />
+  <!-- JS will create elements with class .santa-trail -->
+</div>
+
+<!-- (Optional) audio element for jingle - replace src with your sound -->
+<audio id="jingle-audio" preload="auto">
+  <!-- Provide your own short mp3/ogg. Browsers require user action to start audio. -->
+  <!-- Example placeholder (replace with your hosted file): -->
+  <!-- <source src="https://example.com/christmas-bells.mp3" type="audio/mpeg"> -->
+</audio>
+
+<!-- 4) Inline CSS for the pack -->
+<style>
+/* ---------- config ---------- */
+:root {
+  --santa-width: 180px;       /* width of santa gif */
+  --santa-speed-sec: 12s;     /* full loop duration (forward+back) */
+  --snow-count: 40;           /* number of snowflakes */
+  --lights-height: 44px;      /* height of the lights bar */
+  --trail-count: 8;           /* number of trail dots */
+}
+
+/* ---------- Christmas Lights ---------- */
+.christmas-lights {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--lights-height);
+  pointer-events: none;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 6px 12px;
+  box-sizing: border-box;
+}
+.christmas-lights span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff4d4d;
+  box-shadow: 0 0 8px rgba(255,255,255,0.2);
+  animation: glow 1.2s infinite alternate ease-in-out;
+  transform-origin: center;
+}
+@keyframes glow {
+  from { opacity: 0.45; transform: scale(0.85); filter: blur(0px); }
+  to   { opacity: 1;    transform: scale(1.25); filter: blur(1px); }
+}
+/* randomized colors for bulbs */
+.christmas-lights span:nth-child(4n+1) { background: #ff4d4d; box-shadow: 0 0 10px rgba(255,77,77,0.55);}
+.christmas-lights span:nth-child(4n+2) { background: #4dff4d; box-shadow: 0 0 10px rgba(77,255,77,0.55);}
+.christmas-lights span:nth-child(4n+3) { background: #4db8ff; box-shadow: 0 0 12px rgba(77,184,255,0.55);}
+.christmas-lights span:nth-child(4n+4) { background: #ffff66; box-shadow: 0 0 10px rgba(255,255,102,0.55);}
+
+/* ---------- Snow layer (behind Santa) ---------- */
+#snow-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9980; /* beneath Santa and lights */
+  pointer-events: none;
+  overflow: hidden;
+}
+.snowflake {
+  position: fixed;
+  top: -10vh;
+  color: rgba(255,255,255,0.95);
+  user-select: none;
+  pointer-events: none;
+  will-change: transform, opacity;
+  text-shadow: 0 0 6px rgba(255,255,255,0.7);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* ---------- Santa & trail ---------- */
+#santa-container {
+  position: fixed;
+  top: 20px;            /* initial top; animation will move it slightly */
+  left: 0;
+  z-index: 9990;        /* above snow, below lights */
+  pointer-events: none; /* prevent accidental clicks except on img */
+}
+
+/* Santa image */
+#santa {
+  width: var(--santa-width);
+  height: auto;
+  display: block;
+  will-change: transform, left, top;
+  pointer-events: auto; /* allow clicks on santa for jingle */
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Trail dots (created by JS) */
+.santa-trail {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 220, 100, 0.9);
+  box-shadow: 0 0 14px rgba(255,220,100,0.7);
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(1);
+  will-change: transform, opacity;
+  opacity: 0.85;
+}
+
+/* small responsive tweak */
+@media (max-width: 480px) {
+  :root { --santa-width: 120px; --santa-speed-sec: 10s; --trail-count: 5; --snow-count: 30; }
+  .christmas-lights { height: 36px; }
+}
+
+/* ---------- Helpers (not required to edit) ---------- */
+.fade-out { opacity: 0 !important; transition: opacity 0.45s ease; }
+</style>
+
+<!-- 5) JS that powers santa movement, trail, snow, and jingle -->
+<script>
+(function() {
+  /* ==========================
+     Config - edit if you want
+     ========================== */
+  const SANTA_GIF = document.getElementById('santa');
+  const SANTA_CONTAINER = document.getElementById('santa-container');
+  const TRAIL_COUNT = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--trail-count')) || 8;
+  const SANTA_SPEED_SEC = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--santa-speed-sec')) || 12;
+  const SNOW_COUNT = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--snow-count')) || 40;
+  const JINGLE_AUDIO = document.getElementById('jingle-audio'); // add <source> in HTML with your file
+  
+  /* ==========================
+     Move Santa using JS loop
+     - allows flipping and trail easily
+  ========================== */
+  const viewportW = () => Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+  let santaW = () => SANTA_GIF.getBoundingClientRect().width || parseFloat(getComputedStyle(SANTA_GIF).width);
+  let direction = 1; // 1: left->right, -1: right->left
+  let duration = SANTA_SPEED_SEC * 1000 / 2; // one-way time (we do back and forth)
+  let startTime = null;
+
+  // Trail elements
+  const trailEls = [];
+  for (let i=0;i<TRAIL_COUNT;i++){
+    const t = document.createElement('div');
+    t.className = 'santa-trail';
+    t.style.width = Math.max(6, (Math.random()*12)) + 'px';
+    t.style.height = t.style.width;
+    t.style.opacity = (0.25 + Math.random()*0.6);
+    document.body.appendChild(t);
+    trailEls.push({el: t, x:0, y:0});
+  }
+
+  // Position helper
+  function setSantaPos(x, y){
+    SANTA_GIF.style.left = x + 'px';
+    SANTA_GIF.style.top = y + 'px';
+  }
+
+  // initial placement (off-screen left)
+  setSantaPos(-300, 24);
+
+  function animateSanta(ts){
+    if (!startTime) startTime = ts;
+    const elapsed = ts - startTime;
+    // progress goes 0 -> 1 in `duration`, then we flip direction
+    let progress = (elapsed % duration) / duration;
+    // ease in/out
+    progress = 0.5 - 0.5 * Math.cos(Math.PI * progress);
+    // compute x range (from off-left to off-right)
+    const w = viewportW();
+    const leftOff = - (santaW() + 50);
+    const rightOff = w + 50;
+    let x = leftOff + (rightOff - leftOff) * progress;
+    // if we're in the second half of the full loop (duration * 2), reverse
+    const fullElapsed = elapsed % (duration*2);
+    if (fullElapsed >= duration) {
+      // going right->left
+      x = rightOff - (rightOff - leftOff) * progress;
+      direction = -1;
+    } else {
+      direction = 1;
+    }
+
+    // minor vertical bob for natural movement
+    const yBase = 20 + Math.sin((elapsed/800) * Math.PI) * 24;
+    // apply position
+    setSantaPos(x, yBase);
+
+    // flip santa facing direction
+    SANTA_GIF.style.transform = (direction === -1) ? 'scaleX(-1)' : 'scaleX(1)';
+
+    // move trail: store previous positions and place fading dots
+    // We keep a circular buffer by sampling the current position each frame
+    recordTrail(x + santaW()/2, yBase + SANTA_GIF.getBoundingClientRect().height/2);
+
+    requestAnimationFrame(animateSanta);
+  }
+
+  // trail recording
+  const trailHistory = [];
+  function recordTrail(cx, cy){
+    // push current point
+    trailHistory.push({x: cx + (Math.random()*10-5), y: cy + (Math.random()*6-3), t: Date.now(), a: 1});
+    // keep history length small
+    if (trailHistory.length > 60) trailHistory.shift();
+    // draw up to TRAIL_COUNT latest
+    const latest = trailHistory.slice(-TRAIL_COUNT);
+    for (let i=0; i<trailEls.length; i++){
+      const d = latest[latest.length - 1 - i] || null;
+      const el = trailEls[i].el;
+      if (d){
+        el.style.left = (d.x) + 'px';
+        el.style.top = (d.y) + 'px';
+        const scale = 0.6 - i * (0.045 + Math.random()*0.02);
+        el.style.transform = 'translate(-50%,-50%) scale(' + Math.max(0.2, scale) + ')';
+        el.style.opacity = Math.max(0, (0.8 - i*0.08));
+        el.style.display = 'block';
+      } else {
+        el.style.display = 'none';
+      }
+    }
+  }
+
+  // start animation loop
+  requestAnimationFrame(animateSanta);
+
+  /* ==========================
+     Snow generation (simple, lightweight)
+     ========================== */
+  const snowLayer = document.getElementById('snow-layer');
+  function makeSnowflakes(n){
+    for (let i=0;i<n;i++){
+      const s = document.createElement('div');
+      s.className = 'snowflake';
+      s.textContent = Math.random() > 0.85 ? '❅' : '❄'; // mix of symbols
+      const size = (8 + Math.random()*20);
+      s.style.fontSize = size + 'px';
+      s.style.left = Math.random()*100 + 'vw';
+      s.style.opacity = (0.3 + Math.random()*0.7);
+      const dur = (6 + Math.random()*8);
+      s.style.animationDuration = dur + 's';
+      s.style.animationDelay = (Math.random()*5) + 's';
+      // customize transform during fall via CSS animation created inline
+      s.style.transition = 'transform linear';
+      // use inline keyframes via JS by moving via requestAnimationFrame for better control
+      snowLayer.appendChild(s);
+
+      // animate using simple JS velocity (cheaper than many CSS keyframes)
+      let topPos = -50 - Math.random()*200;
+      const leftBase = parseFloat(s.style.left);
+      const speedY = (20 + Math.random()*40); // px per second
+      const sway = (Math.random()*60) - 30;
+      const swaySpeed = 0.3 + Math.random()*0.8;
+
+      function fall(now, last){
+        const dt = (now - last) / 1000;
+        topPos += speedY * dt;
+        const newLeft = leftBase + Math.sin(now * 0.001 * swaySpeed) * sway;
+        s.style.transform = `translate(${newLeft}px, ${topPos}px)`;
+        if (topPos > window.innerHeight + 200){
+          // reset
+          topPos = -50 - Math.random()*200;
+        }
+        s._last = now;
+        requestAnimationFrame((t)=>fall(t, s._last || t));
+      }
+      requestAnimationFrame((t)=>{ s._last = t; fall(t, t); });
+    }
+  }
+  makeSnowflakes(SNOW_COUNT);
+
+  /* ==========================
+     Jingle on click (user-triggered)
+     ========================== */
+  SANTA_GIF.addEventListener('click', (e) => {
+    // simple click feedback
+    SANTA_GIF.style.filter = 'drop-shadow(0 6px 8px rgba(0,0,0,0.35)) saturate(1.1)';
+    setTimeout(()=>SANTA_GIF.style.filter = '', 220);
+
+    // play audio if a source exists
+    if (JINGLE_AUDIO && JINGLE_AUDIO.querySelector('source')) {
+      try {
+        JINGLE_AUDIO.currentTime = 0;
+        JINGLE_AUDIO.play();
+      } catch (err) {
+        console.warn('Jingle failed to play: user interaction required or format unsupported.', err);
+      }
+    } else {
+      // simple bell fallback: brief visual sparkle if no audio provided
+      const sparkle = document.createElement('div');
+      sparkle.style.position = 'fixed';
+      const rect = SANTA_GIF.getBoundingClientRect();
+      sparkle.style.left = (rect.left + rect.width/2) + 'px';
+      sparkle.style.top = (rect.top + rect.height/2) + 'px';
+      sparkle.style.pointerEvents = 'none';
+      sparkle.style.width = '10px';
+      sparkle.style.height = '10px';
+      sparkle.style.borderRadius = '50%';
+      sparkle.style.background = 'rgba(255,255,220,0.95)';
+      sparkle.style.boxShadow = '0 0 20px rgba(255,220,120,0.9)';
+      sparkle.style.transform = 'translate(-50%,-50%) scale(0.7)';
+      sparkle.style.zIndex = 10000;
+      document.body.appendChild(sparkle);
+      setTimeout(()=> sparkle.style.transform = 'translate(-50%,-50%) scale(2)', 10);
+      setTimeout(()=> sparkle.remove(), 700);
+    }
+  });
+
+  /* ==========================
+     Make sure things reposition on resize
+     ========================== */
+  window.addEventListener('resize', () => {
+    // nothing heavy - the animateSanta reads viewport and santa sizes each frame
+  });
+
+  /* ==========================
+     Helpful: expose a small API if you want to tweak at runtime
+     ========================== */
+  window.holidayPack = {
+    setSantaSpeedSeconds(n){ document.documentElement.style.setProperty('--santa-speed-sec', n + 's'); },
+    setSantaWidth(px){ document.documentElement.style.setProperty('--santa-width', px + 'px'); },
+    setSnowCount(n){ /* not implemented live */ console.warn('To change snow count, reload the pack with different --snow-count.'); }
+  };
+
+})();
+</script>
+
+<!-- End of Holiday Pack -->
+
+</body>
+</html>
